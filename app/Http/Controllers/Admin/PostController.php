@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\Category;
 use Illuminate\Support\Str;
 
@@ -29,8 +30,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
         $post = new Post();
-        return view('admin.posts.create', compact('categories', 'post'));
+        return view('admin.posts.create', compact('categories', 'post', 'tags'));
     }
 
     /**
@@ -41,11 +43,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(
+            [
+                'title' => 'required|string|unique:posts|min:5|max:100',
+                'content' => 'required|string',
+                'category_id' => 'nullable|exists:categories,id',
+                'image' => 'nullable|url',
+                'tags' => 'nullable|exists:tags,id',
+            ],
+        );
+
         $post = new Post();
 
         $post->fill($request->all());
         $post->slug = Str::slug($post->title, '-');
-
         $post->save();
 
         return redirect()->route('admin.posts.index')->with('message', "Il post '$post->title' è stato creato con successo!")->with('type', 'success');
@@ -71,8 +82,9 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -84,6 +96,17 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+
+        $request->validate(
+            [
+                'title' => 'required|string|min:5|max:100',
+                'content' => 'required|string',
+                'category_id' => 'nullable|exists:categories,id',
+                'image' => 'nullable|url',
+                'tags' => 'nullable|exists:tags,id',
+            ],
+        );
+
         $data = $request->all();
 
         $data['slug'] = Str::slug($request->title, '-');
