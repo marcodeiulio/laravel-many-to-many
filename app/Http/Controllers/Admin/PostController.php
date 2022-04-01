@@ -52,12 +52,15 @@ class PostController extends Controller
                 'tags' => 'nullable|exists:tags,id',
             ],
         );
-
+        $data = $request->all();
         $post = new Post();
 
-        $post->fill($request->all());
+        $post->fill($data);
         $post->slug = Str::slug($post->title, '-');
         $post->save();
+
+        // Una volta creato, aggiungo la relazione con i tag (lo faccio dopo averlo creato perché prima non avrei l'id)
+        if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
 
         return redirect()->route('admin.posts.index')->with('message', "Il post '$post->title' è stato creato con successo!")->with('type', 'success');
     }
