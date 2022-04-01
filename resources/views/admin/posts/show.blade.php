@@ -22,10 +22,17 @@
 	<div class="card bg-dark text-white" style="width: 18rem;">
 		<img src="{{ $post->image }}" class="card-img-top" alt="{{ $post->title }}">
 		<div class="card-body">
-			<h5 class="card-title">{{ $post->title }}
+			<h3 class="card-title">{{ $post->title }}
 				<span class="badge bg-{{ $post->category->color }} @if($post->category->color === 'warning' || $post->category->color === 'info' || $post->category->color === 'light') text-dark @endif">{{ $post->category->label }}</span>
-			</h5>
+			</h3>
 			<p class="card-text">{{ $post->content }}</p>
+			<h5>Tags:
+				@forelse ($post->tags as $tag)
+				<span class="badge rounded-pill bg-info">{{ $tag->label }}</span>
+				@empty
+				none
+				@endforelse
+			</h5>
 		</div>
 	</div>
 </div>

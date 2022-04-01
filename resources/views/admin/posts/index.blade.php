@@ -18,6 +18,7 @@
 			<th scope="col">#</th>
 			<th scope="col">Title</th>
 			<th scope="col">Category</th>
+			<th scope="col">Tags</th>
 			<th scope="col">Slug</th>
 			{{-- <th scope="col">Creato il</th> --}}
 			<th scope="col">Modificato il</th>
@@ -34,6 +35,13 @@
 				<span class="badge bg-{{ $post->category->color }} @if($post->category->color === 'warning' || $post->category->color === 'info' || $post->category->color === 'light') text-dark @endif">{{ $post->category->label }}</span>
 				@else -
 				@endif
+			</td>
+			<td>
+				@forelse($post->tags as $tag)
+				<span class="badge rounded-pill bg-info">{{ $tag->label }}</span>
+				@empty
+				-
+				@endforelse
 			</td>
 			<td>{{ $post->slug }}</td>
 			{{-- <td>{{ $post->created_at }}</td> --}}
