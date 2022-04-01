@@ -44,7 +44,7 @@
 			<div class="col-12">
 				@foreach($tags as $tag)
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="checkbox" value="{{ $tag->id }}" id="tag-{{ $tag->id }}" name="tags[]" @if (in_array($tag->id, old('tags') ?? [])) checked @endif>
+					<input class="form-check-input" type="checkbox" value="{{ $tag->id }}" id="tag-{{ $tag->id }}" name="tags[]" @if (in_array($tag->id, old('tags', $post_tags_ids))) checked @endif>
 					<label class="form-check-label" for="tag-{{ $tag->id }}">
 						{{ $tag->label }}
 					</label>

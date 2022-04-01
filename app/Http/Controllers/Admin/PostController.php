@@ -87,7 +87,9 @@ class PostController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
+        $post_tags_ids = $post->tags->pluck('id')->toArray();
+
+        return view('admin.posts.edit', compact('post', 'categories', 'tags', 'post_tags_ids'));
     }
 
     /**
@@ -115,6 +117,9 @@ class PostController extends Controller
         $data['slug'] = Str::slug($request->title, '-');
 
         $post->update($data);
+
+        if (array_key_exists('tags', $data)) $post->tags()->sync($data['tags']);
+        else $post->tags()->detach();
 
         return redirect()->route('admin.posts.show', $post)->with('message', 'The post has been successfully updated.')->with('type', 'success');
     }
