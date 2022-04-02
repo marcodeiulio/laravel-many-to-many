@@ -37,7 +37,7 @@
 			<textarea name="content" class="form-control" id="content" rows="10">{{ old('content', $post->content) }}</textarea>
 		</div>
 		<div class="col-12 mb-3">
-			<label for="image" class="form-label">Image URL</label>
+			<label for="image" class="form-label">Upload image</label>
 			<input type="file" name="image" class="form-control" id="image" placeholder="http://placeholder.jpg" value="{{ asset(" storage/$post->image") }}">
 		</div>
 		<div class="row">

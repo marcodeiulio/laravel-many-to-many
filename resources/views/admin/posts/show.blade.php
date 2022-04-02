@@ -20,7 +20,7 @@
 </div>
 <div class="d-flex justify-content-center">
 	<div class="card bg-dark text-white" style="width: 18rem;">
-		<img src="{{ asset('storage/'.$post->image) }}" class="card-img-top" alt="{{ $post->title }}">
+		<img src="{{ str_starts_with($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" class="card-img-top" alt="{{ $post->title }}">
 		<div class="card-body">
 			<h3 class="card-title">{{ $post->title }}
 				<span class="badge bg-{{ $post->category->color }} @if($post->category->color === 'warning' || $post->category->color === 'info' || $post->category->color === 'light') text-dark @endif">{{ $post->category->label }}</span>
