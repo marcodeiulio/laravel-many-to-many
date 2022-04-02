@@ -42,9 +42,9 @@
 		</div>
 		<div class="col-2 mb-3 d-flex align-items-end">
 			@if($post->image)
-			<img src="{{ $post->image }}" alt="{{ $post->slug }}" class="img-fluid" width="75px">
+			<img src="{{ $post->image }}" alt="{{ $post->slug }}" class="img-fluid" width="75px" id="image-preview">
 			@else
-			<img src="{{ 'https://designshack.net/wp-content/uploads/placeholder-image.png' }}" alt="{{ $post->slug }}" class="img-fluid" width="75px">
+			<img src="{{ 'https://designshack.net/wp-content/uploads/placeholder-image.png' }}" alt="{{ $post->slug }}" class="img-fluid" width="75px" id="image-preview">
 			@endif
 		</div>
 		<div class="row">
@@ -66,5 +66,18 @@
 			</div>
 		</div>
 	</form>
+	@endsection
 
+	@section('additional_scripts')
+	{{-- <script>
+		const placeholder = 'https://designshack.net/wp-content/uploads/placeholder-image.png';
+		const imageInput = document.getElementById('image');
+		const imagePreview = document.getElementById('image-preview');
+
+		imageInput.addEventListener('change', e => {
+			console.log('Change!');
+			const preview = imageInput.value ?? placeholder;
+			imagePreview.setAttribute('src', preview);
+		})
+	</script> --}}
 	@endsection

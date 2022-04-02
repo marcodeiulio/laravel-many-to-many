@@ -129,6 +129,7 @@ class PostController extends Controller
         $data = $request->all();
 
         if (array_key_exists('image', $data)) {
+            if ($post->image) Storage::delete($post->image);
             $img_url = Storage::put('post_images', $data['image']);
             $data['image'] = $img_url;
         }
@@ -151,6 +152,13 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // Elimino eventuali relazioni
+        if (count($post->tags)) $post->tags()->detach();
+
+        // Elimino eventuali immagini
+        if ($post->image) Storage::delete($post->image);
+
+        // Elimino il post
         $post->delete();
         return redirect()->route('admin.posts.index')->with('message', "The post '$post->title' has been deleted.")->with('type', 'success');
     }
