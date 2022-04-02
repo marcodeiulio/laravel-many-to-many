@@ -79,6 +79,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        if (!str_starts_with($post->image, 'http')) {
+            $post->image = asset('storage/' . $post->image);
+        }
+
         return view('admin.posts.show', compact('post'));
     }
 
