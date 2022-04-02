@@ -36,9 +36,16 @@
 			<label for="content" class="form-label">Content</label>
 			<textarea name="content" class="form-control" id="content" rows="10">{{ old('content', $post->content) }}</textarea>
 		</div>
-		<div class="col-12 mb-3">
+		<div class="col-10 mb-3">
 			<label for="image" class="form-label">Upload image</label>
 			<input type="file" name="image" class="form-control" id="image" placeholder="http://placeholder.jpg" value="{{ asset(" storage/$post->image") }}">
+		</div>
+		<div class="col-2 mb-3 d-flex align-items-end">
+			@if($post->image)
+			<img src="{{ $post->image }}" alt="{{ $post->slug }}" class="img-fluid" width="75px">
+			@else
+			<img src="{{ 'https://designshack.net/wp-content/uploads/placeholder-image.png' }}" alt="{{ $post->slug }}" class="img-fluid" width="75px">
+			@endif
 		</div>
 		<div class="row">
 			<div class="col-12">

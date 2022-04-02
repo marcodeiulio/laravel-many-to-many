@@ -99,6 +99,10 @@ class PostController extends Controller
 
         $post_tags_ids = $post->tags->pluck('id')->toArray();
 
+        if (!str_starts_with($post->image, 'http')) {
+            $post->image = asset('storage/' . $post->image);
+        }
+
         return view('admin.posts.edit', compact('post', 'categories', 'tags', 'post_tags_ids'));
     }
 
