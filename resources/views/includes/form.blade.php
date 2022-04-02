@@ -14,10 +14,10 @@
 @endif
 
 @if($post->exists)
-<form action="{{ route('admin.posts.update', $post->id) }}" method="POST" class="row">
+<form action="{{ route('admin.posts.update', $post->id) }}" method="POST" class="row" enctype="multipart/form-data">
 	@method('PUT')
 	@else
-	<form action="{{ route('admin.posts.store') }}" method="POST" class="row">
+	<form action="{{ route('admin.posts.store') }}" method="POST" class="row" enctype="multipart/form-data">
 		@endif
 		@csrf
 		<div class="col-8 mb-3">
@@ -38,13 +38,13 @@
 		</div>
 		<div class="col-12 mb-3">
 			<label for="image" class="form-label">Image URL</label>
-			<input type="text" name="image" class="form-control" id="image" placeholder="http://placeholder.jpg" value="{{ old('image', $post->image) }}">
+			<input type="file" name="image" class="form-control" id="image" placeholder="http://placeholder.jpg" value="{{ asset(" storage/$post->image") }}">
 		</div>
 		<div class="row">
 			<div class="col-12">
 				@foreach($tags as $tag)
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="checkbox" value="{{ $tag->id }}" id="tag-{{ $tag->id }}" name="tags[]" @if (in_array($tag->id, old('tags', $post_tags_ids))) checked @endif>
+					<input class="form-check-input" type="checkbox" value="{{ $tag->id }}" id="tag-{{ $tag->id }}" name="tags[]" @if (in_array($tag->id, old('tags', $post_tags_ids ?? []))) checked @endif>
 					<label class="form-check-label" for="tag-{{ $tag->id }}">
 						{{ $tag->label }}
 					</label>
