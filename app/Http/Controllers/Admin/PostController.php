@@ -9,6 +9,8 @@ use App\Models\Tag;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PublishedMail;
 
 class PostController extends Controller
 {
@@ -67,6 +69,11 @@ class PostController extends Controller
 
         // Una volta creato, aggiungo la relazione con i tag (lo faccio dopo averlo creato perché prima non avrei l'id)
         if (array_key_exists('tags', $data)) $post->tags()->attach($data['tags']);
+
+        // Invio mail di conferma
+        $mail = new PublishedMail();
+        $receiver = 'marco98.deiu@gmail.com';
+        Mail::to($receiver)->send($mail);
 
         return redirect()->route('admin.posts.index')->with('message', "Il post '$post->title' è stato creato con successo!")->with('type', 'success');
     }

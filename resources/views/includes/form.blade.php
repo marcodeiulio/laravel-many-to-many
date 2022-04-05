@@ -69,15 +69,21 @@
 	@endsection
 
 	@section('additional_scripts')
-	{{-- <script>
+	<script>
 		const placeholder = 'https://designshack.net/wp-content/uploads/placeholder-image.png';
 		const imageInput = document.getElementById('image');
 		const imagePreview = document.getElementById('image-preview');
 
-		imageInput.addEventListener('change', e => {
-			console.log('Change!');
-			const preview = imageInput.value ?? placeholder;
-			imagePreview.setAttribute('src', preview);
+		imageInput.addEventListener('change', () => {
+			console.log('Change!')
+			if(imageInput.files && imageInput.files[0]) {
+				let reader = new FileReader();
+				reader.readAsDataURL(imageInput.files[0]);
+
+				reader.onload = e => {
+					imagePreview.setAttribute('src', e.target.result);
+				}
+			} else imagePreview.setAttribute('src', placeholder);
 		})
-	</script> --}}
+	</script>
 	@endsection
